@@ -9,6 +9,8 @@ namespace UniversityAPI.Models
     public class Grade
     {
         [Required]
+        public int studentId { get; set; }
+        [Required]
         [Range(2,5)]
         public int Value { get; set; }
         public string Description { get; set; }

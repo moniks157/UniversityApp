@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UniversityAPI.Models;
+using UniversityAPI.Services;
 
 namespace UniversityAPI.Controllers
 {
@@ -13,19 +15,20 @@ namespace UniversityAPI.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private List<Student> students = new List<Student>()
-            {new Student(){Id = 1, FirstName = "Jan", LastName = "Kowialski", Age = 22, Gender = "M", 
-                Grades = new List<Grade>()
-                {new Grade{Value = 3, Description = "nothing"},
-                new Grade{Value = 4, Description = "nothing"},
-                new Grade{Value = 5, Description = "nothing"}} },
-            new Student(){Id = 2, FirstName = "Karol", LastName = "Nowak", Age = 23, Gender = "M"},
-            new Student(){Id = 3, FirstName = "Anna", LastName = "Ptak", Age = 21, Gender = "K"}};
+        private readonly IStudentService _studentService;
+        private readonly ILogger<StudentController> _logger;
+
+        public StudentController(IStudentService studentService, ILogger<StudentController> logger)
+        {
+            _studentService = studentService;
+            _logger = logger;
+        }
 
         [Route("")]
         [HttpGet]
         public IActionResult GetStudents()
         {
+            var students = _studentService.GetStudents();
             return Ok(students);
         }
 
@@ -33,6 +36,8 @@ namespace UniversityAPI.Controllers
         [HttpGet]
         public IActionResult GetStudent(int id)
         {
+            var students = _studentService.GetStudents();
+
             var result = students.Find(s => s.Id == id);
 
             if (result == null) return NotFound();
@@ -43,6 +48,8 @@ namespace UniversityAPI.Controllers
         [HttpPost]
         public IActionResult PostStudent(Student student)
         {
+            var students = _studentService.GetStudents();
+
             student.Id = students.Last().Id + 1;
             students.Add(student);
             return Ok(students);
@@ -53,6 +60,8 @@ namespace UniversityAPI.Controllers
         [HttpPut]
         public IActionResult PutStudent(int id, Student student)
         {
+            var students = _studentService.GetStudents();
+
             var result = students.Find(s => s.Id == id);
             
             if (result == null)
@@ -69,12 +78,16 @@ namespace UniversityAPI.Controllers
         [HttpDelete]
         public IActionResult DeleteStudent(int id)
         {
+            var students = _studentService.GetStudents();
+
             var result = students.Find(s => s.Id == id);
 
             if (result == null)
                 return NotFound();
 
             students.Remove(result);
+
+            students = _studentService.GetStudents();
 
             return Ok(students);
         }
