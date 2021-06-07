@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using UniversityAPI.Models;
 using UniversityAPI.Services;
 
@@ -56,6 +51,37 @@ namespace UniversityAPI.Controllers
             
         }
 
+        [Route("{student_id}")]
+        [HttpPost]
+        public IActionResult PostGradeToStudent(int student_id, Grade grade)
+        {
+            var student = _studentService.GetStudents().Find(student => student.Id == student_id);
+
+            grade.Id = student.Grades.Last().Id + 1;
+            student.Grades.Add(grade);
+            return Ok(student);
+        }
+
+        [Route("{student_id}/{grade_id}")]
+        [HttpPut]
+        public IActionResult PutGradeToStudent(int student_id, int grade_id, Grade grade)
+        {
+            var student = _studentService.GetStudents().Find(student => student.Id == student_id);
+            
+            if (student == null)
+                return NotFound();
+
+
+            return BadRequest();
+        }
+
+        [Route("{student_id}/{grade_id}")]
+        [HttpDelete]
+        public IActionResult DeleteGradeFromStudent(int student_id, int grade_id)
+        {
+            return BadRequest();
+        }
+
         [Route("{id}")]
         [HttpPut]
         public IActionResult PutStudent(int id, Student student)
@@ -75,6 +101,7 @@ namespace UniversityAPI.Controllers
             return Ok(students);
         }
 
+        [Route("{id}")]
         [HttpDelete]
         public IActionResult DeleteStudent(int id)
         {
@@ -86,9 +113,6 @@ namespace UniversityAPI.Controllers
                 return NotFound();
 
             students.Remove(result);
-
-            students = _studentService.GetStudents();
-
             return Ok(students);
         }
 
