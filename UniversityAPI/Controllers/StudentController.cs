@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UniversityAPI.Models;
 
@@ -13,9 +14,13 @@ namespace UniversityAPI.Controllers
     public class StudentController : ControllerBase
     {
         private List<Student> students = new List<Student>()
-            {new Student(){Id = 1, FirstName = "Jan", LastName = "Kowialski", Age = 22, Gender = Gender.M},
-            new Student(){Id = 2, FirstName = "Karol", LastName = "Nowak", Age = 23, Gender = Gender.M},
-            new Student(){Id = 3, FirstName = "Anna", LastName = "Ptak", Age = 21, Gender = Gender.K}};
+            {new Student(){Id = 1, FirstName = "Jan", LastName = "Kowialski", Age = 22, Gender = "M", 
+                Grades = new List<Grade>()
+                {new Grade{Value = 3, Description = "nothing"},
+                new Grade{Value = 4, Description = "nothing"},
+                new Grade{Value = 5, Description = "nothing"}} },
+            new Student(){Id = 2, FirstName = "Karol", LastName = "Nowak", Age = 23, Gender = "M"},
+            new Student(){Id = 3, FirstName = "Anna", LastName = "Ptak", Age = 21, Gender = "K"}};
 
         [Route("")]
         [HttpGet]
@@ -36,28 +41,42 @@ namespace UniversityAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(int id, string firstName, string lastName, int age, int gender)
+        public IActionResult PostStudent(Student student)
         {
-            var student = new Student() { Id = id, FirstName = firstName, LastName = lastName, Age = age, Gender = (Gender)gender };
-            //todo validation
+            student.Id = students.Last().Id + 1;
             students.Add(student);
             return Ok(students);
+            
         }
 
         [Route("{id}")]
         [HttpPut]
-        public IActionResult Put()
+        public IActionResult PutStudent(int id, Student student)
         {
-            //todo
-            return Ok();
+            var result = students.Find(s => s.Id == id);
+            
+            if (result == null)
+                return NotFound();
+
+            result.FirstName = student.FirstName;
+            result.LastName = student.LastName;
+            result.Age = student.Age;
+            result.Gender = student.Gender;
+
+            return Ok(students);
         }
 
-        [Route("{id}")]
         [HttpDelete]
-        public IActionResult Delete()
+        public IActionResult DeleteStudent(int id)
         {
-            //todo
-            return Ok();
+            var result = students.Find(s => s.Id == id);
+
+            if (result == null)
+                return NotFound();
+
+            students.Remove(result);
+
+            return Ok(students);
         }
 
     }
