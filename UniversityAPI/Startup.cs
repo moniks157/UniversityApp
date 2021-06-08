@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UniversityAPI.Services;
+using UniversityAPI.Services.Intefaces;
 
 namespace UniversityAPI
 {
@@ -27,7 +28,8 @@ namespace UniversityAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IStudentService, StudentService>();
+            services.AddTransient<IStudentsService, StudentsService>();
+            services.AddTransient<IGradesService, GradesService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
