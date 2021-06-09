@@ -6,11 +6,11 @@ namespace UniversityAPI.Controllers
 {
     [Route("api/students/{studentId}/grades")]
     [ApiController]
-    public class GradesContoller : ControllerBase
+    public class GradesController : ControllerBase
     {
         private readonly IGradesService _gradesService;
 
-        public GradesContoller(IGradesService gradesService)
+        public GradesController(IGradesService gradesService)
         {
             _gradesService = gradesService;
         }

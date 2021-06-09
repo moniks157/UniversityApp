@@ -27,8 +27,8 @@ namespace UniversityAPI.Services
             {
                 student.Grades = new List<Grade>();
             }
-            
-            grade.Id = student.Grades.LastOrDefault().Id + 1;
+
+            grade.Id = student.Grades.DefaultIfEmpty(new Grade { Id = 0, Value = 2, Description = "" }).Last().Id + 1;
 
             student.Grades.Add(grade);
             return grade;
@@ -65,7 +65,27 @@ namespace UniversityAPI.Services
 
         public bool UpdateGrade(int studentId, int gradeId, Grade grade)
         {
-            throw new System.NotImplementedException();
+            var student = _studentService.GetStudent(studentId);
+
+            if(student == null)
+            {
+                return false;
+            }
+
+            if(student.Grades != null)
+            {
+                var gradeToUpdate = student.Grades.Find(grade => grade.Id == gradeId);
+                
+                if(gradeToUpdate != null)
+                {
+                    gradeToUpdate.Value = grade.Value;
+                    gradeToUpdate.Description = grade.Description;
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

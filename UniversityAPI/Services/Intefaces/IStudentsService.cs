@@ -8,10 +8,11 @@ namespace UniversityAPI.Services.Intefaces
 {
     public interface IStudentsService
     {
-        List<Student> GetStudents();
+        IEnumerable<Student> GetStudents();
         Student GetStudent(int id);
         void AddStudent(Student student);
         bool UpdateStudent(int id, Student student);
         bool RemoveStudent(int id);
+        IEnumerable<Student> Search(string firstName, string lastName, int age, string gender);
     }
 }

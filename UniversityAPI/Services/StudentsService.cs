@@ -13,25 +13,28 @@ namespace UniversityAPI.Services
         {
             new Student()
             {
-                Id = 1, 
-                FirstName = "Jan", 
-                LastName = "Kowialski", 
-                Age = 22, 
+                Id = 1,
+                FirstName = "Jan",
+                LastName = "Kowialski",
+                Age = 22,
                 Gender = "M",
                 Grades = new List<Grade>()
                 {
                     new Grade
                     {
+                        Id = 1,
                         Value = 3, 
                         Description = "nothing"
                     },
                     new Grade
                     {
+                        Id = 2,
                         Value = 4, 
                         Description = "nothing"
                     },
                     new Grade
                     {
+                        Id = 3,
                         Value = 5, 
                         Description = "nothing"
                     }
@@ -55,7 +58,7 @@ namespace UniversityAPI.Services
             }
         };
 
-        public List<Student> GetStudents()
+        public IEnumerable<Student> GetStudents()
         {
             return students;
         }
@@ -93,6 +96,33 @@ namespace UniversityAPI.Services
         {
             var studentToRemove = students.Find(student => student.Id == id);
             return students.Remove(studentToRemove);
+        }
+
+        public IEnumerable<Student> Search(string firstName, string lastName, int age, string gender)
+        {
+            var result = students;
+
+            if(!string.IsNullOrEmpty(firstName))
+            {
+                result = result.Where(student => student.FirstName.Contains(firstName)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                result = result.Where(student => student.LastName.Contains(lastName)).ToList();
+            }
+
+            if (age >= 18)
+            {
+                result = result.Where(student => student.Age == age).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(gender))
+            {
+                result = result.Where(student => student.Gender.ToLower().Contains(gender)).ToList();
+            }
+
+            return result;
         }
 
     }

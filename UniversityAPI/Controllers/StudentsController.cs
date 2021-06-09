@@ -39,6 +39,18 @@ namespace UniversityAPI.Controllers
             return Ok(student);
         }
 
+        [HttpGet("search")]
+        public IActionResult Search(string firstName, string lastName, int age, string gender)
+        {
+            var result = _studentService.Search(firstName, lastName, age, gender);
+
+            if (result == null || !result.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] Student student)
