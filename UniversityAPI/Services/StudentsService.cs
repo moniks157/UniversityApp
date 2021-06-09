@@ -24,19 +24,19 @@ namespace UniversityAPI.Services
                     {
                         Id = 1,
                         Value = 3, 
-                        Description = "nothing"
+                        Description = "a"
                     },
                     new Grade
                     {
                         Id = 2,
                         Value = 4, 
-                        Description = "nothing"
+                        Description = "b"
                     },
                     new Grade
                     {
                         Id = 3,
                         Value = 5, 
-                        Description = "nothing"
+                        Description = "c"
                     }
                 } 
             },
@@ -98,18 +98,13 @@ namespace UniversityAPI.Services
             return students.Remove(studentToRemove);
         }
 
-        public IEnumerable<Student> Search(string firstName, string lastName, int age, string gender)
+        public IEnumerable<Student> Search(string name, int age, string gender)
         {
             var result = students;
 
-            if(!string.IsNullOrEmpty(firstName))
+            if(!string.IsNullOrEmpty(name))
             {
-                result = result.Where(student => student.FirstName.Contains(firstName)).ToList();
-            }
-
-            if (!string.IsNullOrEmpty(lastName))
-            {
-                result = result.Where(student => student.LastName.Contains(lastName)).ToList();
+                result = result.Where(student => name.Contains(student.FirstName) || name.Contains(student.LastName)).ToList();
             }
 
             if (age >= 18)

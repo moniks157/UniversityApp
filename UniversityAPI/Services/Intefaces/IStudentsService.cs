@@ -13,6 +13,6 @@ namespace UniversityAPI.Services.Intefaces
         void AddStudent(Student student);
         bool UpdateStudent(int id, Student student);
         bool RemoveStudent(int id);
-        IEnumerable<Student> Search(string firstName, string lastName, int age, string gender);
+        IEnumerable<Student> Search(string name, int age, string gender);
     }
 }

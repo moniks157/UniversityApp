@@ -40,9 +40,9 @@ namespace UniversityAPI.Controllers
         }
 
         [HttpGet("search")]
-        public IActionResult Search(string firstName, string lastName, int age, string gender)
+        public IActionResult Search([FromQuery]string name, [FromQuery] int age, [FromQuery] string gender)
         {
-            var result = _studentService.Search(firstName, lastName, age, gender);
+            var result = _studentService.Search(name, age, gender);
 
             if (result == null || !result.Any())
             {
