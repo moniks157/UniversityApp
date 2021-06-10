@@ -23,11 +23,6 @@ namespace UniversityAPI.Services
                 return null;
             }
 
-            if(student.Grades == null)
-            {
-                student.Grades = new List<Grade>();
-            }
-
             grade.Id = student.Grades.DefaultIfEmpty(new Grade { Id = 0, Value = 2, Description = "" }).Last().Id + 1;
 
             student.Grades.Add(grade);
@@ -39,11 +34,6 @@ namespace UniversityAPI.Services
             var student = _studentService.GetStudent(studentId);
 
             if (student == null)
-            {
-                return false;
-            }
-
-            if(student.Grades == null)
             {
                 return false;
             }
@@ -72,19 +62,16 @@ namespace UniversityAPI.Services
                 return false;
             }
 
-            if(student.Grades != null)
-            {
-                var gradeToUpdate = student.Grades.Find(grade => grade.Id == gradeId);
+            var gradeToUpdate = student.Grades.Find(grade => grade.Id == gradeId);
                 
-                if(gradeToUpdate != null)
-                {
-                    gradeToUpdate.Value = grade.Value;
-                    gradeToUpdate.Description = grade.Description;
+            if(gradeToUpdate != null)
+            {
+                gradeToUpdate.Value = grade.Value;
+                gradeToUpdate.Description = grade.Description;
 
-                    return true;
-                }
+                return true;
             }
-
+           
             return false;
         }
     }

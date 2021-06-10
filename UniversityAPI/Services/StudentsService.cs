@@ -58,7 +58,7 @@ namespace UniversityAPI.Services
             }
         };
 
-        public IEnumerable<Student> GetStudents()
+        public List<Student> GetStudents()
         {
             return students;
         }
@@ -98,26 +98,26 @@ namespace UniversityAPI.Services
             return students.Remove(studentToRemove);
         }
 
-        public IEnumerable<Student> Search(string name, int age, string gender)
+        public List<Student> Search(string name, int age, string gender)
         {
-            var result = students;
+            var result = students.ToList();
 
             if(!string.IsNullOrEmpty(name))
             {
-                result = result.Where(student => name.Contains(student.FirstName) || name.Contains(student.LastName)).ToList();
+                result.Where(student => name.Contains(student.FirstName) || name.Contains(student.LastName));
             }
 
-            if (age >= 18)
+            if (age >= 18) // make const
             {
-                result = result.Where(student => student.Age == age).ToList();
+                result.Where(student => student.Age == age);
             }
 
             if (!string.IsNullOrEmpty(gender))
             {
-                result = result.Where(student => student.Gender.ToLower().Contains(gender)).ToList();
+                result.Where(student => student.Gender.ToLower().Contains(gender));
             }
 
-            return result;
+            return result.ToList();
         }
 
     }

@@ -65,7 +65,7 @@ namespace UniversityAPI.Controllers
         {
             if(!_studentService.UpdateStudent(id, student))
             {
-                return NotFound();
+                return BadRequest();
             }
             return NoContent();
         }
@@ -75,7 +75,7 @@ namespace UniversityAPI.Controllers
         {
             if (!_studentService.RemoveStudent(id))
             {
-                return NotFound();
+                return BadRequest();
             }
             return NoContent();
         }

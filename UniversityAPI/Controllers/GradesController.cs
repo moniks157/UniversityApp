@@ -4,7 +4,7 @@ using UniversityAPI.Services.Intefaces;
 
 namespace UniversityAPI.Controllers
 {
-    [Route("api/students/{studentId}/grades")]
+    [Route("api/studentgrades")]
     [ApiController]
     public class GradesController : ControllerBase
     {
@@ -14,8 +14,8 @@ namespace UniversityAPI.Controllers
         {
             _gradesService = gradesService;
         }
-
-        [HttpGet]
+        //get all grades 
+        [HttpGet("{studentId}/grades")]
         public IActionResult Get(int studentId)
         {
             var result = _gradesService.GetGrades(studentId);
@@ -29,7 +29,7 @@ namespace UniversityAPI.Controllers
 
             if(result == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return Ok(result);
@@ -40,7 +40,7 @@ namespace UniversityAPI.Controllers
         {
             if(!_gradesService.UpdateGrade(studentId,gradeId,grade))
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return NoContent();
@@ -51,7 +51,7 @@ namespace UniversityAPI.Controllers
         {
             if(!_gradesService.DeleteGrade(studentId, gradeId))
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return NoContent();

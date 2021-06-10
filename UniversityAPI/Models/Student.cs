@@ -25,6 +25,6 @@ namespace UniversityAPI.Models
         [RegularExpression(gender_regex)]
         public string Gender { get; set; }
 
-        public List<Grade> Grades { get; set; }
+        public List<Grade> Grades { get; set; } = new List<Grade>();
     }
 }
