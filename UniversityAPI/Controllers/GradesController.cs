@@ -14,15 +14,22 @@ namespace UniversityAPI.Controllers
         {
             _gradesService = gradesService;
         }
-        //get all grades 
+        
+        [HttpGet]
+        public IActionResult GetAllGrades()
+        {
+            var result = _gradesService.GetAllGrades();
+            return Ok(result);
+        }
+
         [HttpGet("{studentId}/grades")]
-        public IActionResult Get(int studentId)
+        public IActionResult GetStudentGrades(int studentId)
         {
             var result = _gradesService.GetGrades(studentId);
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("{studentId}")]
         public IActionResult Post(int studentId, [FromBody] Grade grade)
         {
             var result = _gradesService.AddGrade(studentId, grade);
@@ -35,7 +42,7 @@ namespace UniversityAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{gradeId}")]
+        [HttpPut("{studentId}/grades/{gradeId}")]
         public IActionResult Put(int studentId, int gradeId, [FromBody] Grade grade)
         {
             if(!_gradesService.UpdateGrade(studentId,gradeId,grade))
@@ -46,7 +53,7 @@ namespace UniversityAPI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{gradeId}")]
+        [HttpDelete("{studentId}/grades/{gradeId}")]
         public IActionResult Delete(int studentId, int gradeId)
         {
             if(!_gradesService.DeleteGrade(studentId, gradeId))

@@ -42,6 +42,17 @@ namespace UniversityAPI.Services
             return student.Grades.Remove(gradeToRemove);
         }
 
+        public List<Grade> GetAllGrades()
+        {
+            var result = new List<Grade>();
+            foreach(var student in _studentService.GetStudents())
+            {
+                result.AddRange(student.Grades);
+            }
+
+            return result;
+        }
+
         public List<Grade> GetGrades(int id)
         {
             var student = _studentService.GetStudent(id);
