@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversityApp", "UniversityApp.csproj", "{0CC7221E-B0DD-4B9E-9394-6C038C94C71D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityAppDataAccess", "..\UniversityAppDataAccess\UniversityAppDataAccess.csproj", "{CC3ED9EB-EE52-4EB0-850A-7347536FABC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversityAppDataAccess", "..\UniversityAppDataAccess\UniversityAppDataAccess.csproj", "{CC3ED9EB-EE52-4EB0-850A-7347536FABC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityAppBussinessLogic", "..\UniversityAppBussinessLogic\UniversityAppBussinessLogic.csproj", "{4C2D07D2-0B60-42E0-8A54-6D7CABFE519C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{CC3ED9EB-EE52-4EB0-850A-7347536FABC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC3ED9EB-EE52-4EB0-850A-7347536FABC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC3ED9EB-EE52-4EB0-850A-7347536FABC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C2D07D2-0B60-42E0-8A54-6D7CABFE519C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2D07D2-0B60-42E0-8A54-6D7CABFE519C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2D07D2-0B60-42E0-8A54-6D7CABFE519C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2D07D2-0B60-42E0-8A54-6D7CABFE519C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

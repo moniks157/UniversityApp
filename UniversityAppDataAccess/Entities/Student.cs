@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversityDataAccess.Models
+namespace UniversityDataAccess.Entities
 {
     class Student
     {
