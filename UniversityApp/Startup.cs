@@ -11,13 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UniversityAppBussinessLogic.Services;
-using UniversityAppBussinessLogic.Services.Interfaces;
-using UniversityAppDataAccess.Repositories;
-using UniversityAppDataAccess.Repositories.Interfaces;
-using UniversityDataAccess;
+using UniversityApp.BussinessLogic.Services;
+using UniversityApp.BussinessLogic.Services.Interfaces;
+using UniversityApp.DataAccess;
+using UniversityApp.DataAccess.Repositories;
+using UniversityApp.DataAccess.Repositories.Interfaces;
 
-namespace UniversityAPI
+namespace UniversityApp
 {
     public class Startup
     {
@@ -31,14 +31,14 @@ namespace UniversityAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IStudentService, StudentService>();
-            services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IStudentsService, StudentsService>();
+            services.AddTransient<IStudentsRepository, StudentsRepository>();
+
             services.AddDbContext<UniversityContext>();
-            //services.AddTransient<IGradesService, GradesService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "UniversityAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "UniversityApp", Version = "v1" });
             });
         }
 
@@ -49,7 +49,7 @@ namespace UniversityAPI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniversityAPI v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniversityApp v1"));
             }
 
             app.UseHttpsRedirection();
