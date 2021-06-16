@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UniversityDataAccess.Entities
 {
-    class Grade
+    public class Grade
     {
         public int Id { get; set; }
         public int Vallue { get; set; }

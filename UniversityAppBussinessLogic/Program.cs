@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
+using UniversityAppBussinessLogic.DTO;
+using UniversityDataAccess.Entities;
 
 namespace UniversityAppBussinessLogic
 {
@@ -6,7 +9,9 @@ namespace UniversityAppBussinessLogic
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var config = new MapperConfiguration(cfg =>
+                    cfg.CreateMap<Student, StudentDTO>()
+                );
         }
     }
 }

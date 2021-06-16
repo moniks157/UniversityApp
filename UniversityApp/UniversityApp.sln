@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversityApp", "University
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversityAppDataAccess", "..\UniversityAppDataAccess\UniversityAppDataAccess.csproj", "{CC3ED9EB-EE52-4EB0-850A-7347536FABC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversityAppBussinessLogic", "..\UniversityAppBussinessLogic\UniversityAppBussinessLogic.csproj", "{4C2D07D2-0B60-42E0-8A54-6D7CABFE519C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversityAppBussinessLogic", "..\UniversityAppBussinessLogic\UniversityAppBussinessLogic.csproj", "{4C2D07D2-0B60-42E0-8A54-6D7CABFE519C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
