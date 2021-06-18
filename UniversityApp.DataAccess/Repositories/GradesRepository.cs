@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UniversityApp.DataAccess.Entities;
 using UniversityApp.DataAccess.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace UniversityApp.DataAccess.Repositories
 {
@@ -29,14 +30,11 @@ namespace UniversityApp.DataAccess.Repositories
 
         public async Task<List<Grade>> GetAllStudentGrades(int studentId)
         {
-            var student = await _context.Students.FindAsync(studentId);
+            var studentsWithGrades = await _context.Students.Include(g => g.Grades).ToListAsync();
 
-            if (student == null)
-            {
-                return null;
-            }
+            var grades = studentsWithGrades.Find(student => student.Id == studentId).Grades;
 
-            return student.Grades;
+            return grades;
         }
     }
 }
