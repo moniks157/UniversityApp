@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DTO;
 using UniversityApp.BussinessLogic.Services.Interfaces;
@@ -68,17 +66,38 @@ namespace UniversityApp.Controllers
                 Gender = student.Gender
             };
 
-            var i = await _studentsService.AddStudent(studentToAdd);
+            var id = await _studentsService.AddStudent(studentToAdd);
 
-            return Ok(i);
+            return Created($"~api/students/{id}",id);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Student student)
         {
+            var studentToUpdate = new StudentDTO
+            {
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Age = student.Age,
+                Gender = student.Gender
+            };
+
+            var result = await _studentsService.UpdateStudent(id, studentToUpdate);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _studentsService.DeleteStudent(id);
+            
+            if(!result)
+            {
+                return BadRequest();
+            }
 
             return Ok();
         }
-    
     }
 }

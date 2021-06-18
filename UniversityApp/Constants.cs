@@ -9,6 +9,6 @@ namespace UniversityApp
     {
         public const string GENDER_REGEX = @"\b[kKmM]\b";
         public const int MIN_AGE = 18;
-        public const int MAX_AGE = Int32.MaxValue;
+        public const int MAX_AGE = 200;
     }
 }

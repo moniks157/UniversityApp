@@ -32,7 +32,9 @@ namespace UniversityApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IStudentsService, StudentsService>();
+            services.AddTransient<IGradesService, GradesService>();
             services.AddTransient<IStudentsRepository, StudentsRepository>();
+            services.AddTransient<IGradesRepository, GradesRepository>();
 
             services.AddDbContext<UniversityContext>();
             services.AddControllers();

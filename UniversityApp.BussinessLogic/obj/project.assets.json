@@ -5724,11 +5724,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.BussinessLogic\\UniversityApp.BussinessLogic.csproj",
+      "projectUniqueName": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.BussinessLogic\\UniversityApp.BussinessLogic.csproj",
       "projectName": "UniversityApp.BussinessLogic",
-      "projectPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.BussinessLogic\\UniversityApp.BussinessLogic.csproj",
+      "projectPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.BussinessLogic\\UniversityApp.BussinessLogic.csproj",
       "packagesPath": "C:\\Users\\mmaczkowiak\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.BussinessLogic\\obj\\",
+      "outputPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.BussinessLogic\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mmaczkowiak\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5745,8 +5745,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj"
+            "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj"
             }
           }
         }

@@ -5802,11 +5802,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj",
+      "projectUniqueName": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj",
       "projectName": "UniversityApp.DataAccess",
-      "projectPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj",
+      "projectPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj",
       "packagesPath": "C:\\Users\\mmaczkowiak\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.DataAccess\\obj\\",
+      "outputPath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mmaczkowiak\\AppData\\Roaming\\NuGet\\NuGet.Config",

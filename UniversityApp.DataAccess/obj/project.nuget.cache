@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dIowaklY+JVB9LoTfFQaTX/hs1FoTLvsu0A8cv00mWFcMNGHmMQyNW23YYs2cUB+o4Wpg4nwJGEEXY73IjVIpw==",
+  "dgSpecHash": "29ub3Vglg0epC6LUgwfWAXgzV6vymYetb59z7BiqHh5ICIP3Dt8qjtTk8EZxgxcWtIp0mh3ogVdyhNzsYZii6g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversityApp\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj",
+  "projectFilePath": "C:\\Users\\mmaczkowiak\\source\\repos\\UniversiyAppGitHub\\UniversityApp.DataAccess\\UniversityApp.DataAccess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mmaczkowiak\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\mmaczkowiak\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
