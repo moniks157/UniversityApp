@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UniversityApp.BussinessLogic.DTO;
+using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
 using UniversityApp.Models;
 
@@ -23,11 +23,11 @@ namespace UniversityApp.Controllers
         {
             var students = await _studentsService.GetStudents();
 
-            var result = new List<Student>();
+            var result = new List<StudentDto>();
 
             foreach (var student in students)
             {
-                result.Add(new Student
+                result.Add(new StudentDto
                 {
                     FirstName = student.FirstName,
                     LastName = student.LastName,
@@ -44,7 +44,7 @@ namespace UniversityApp.Controllers
         {
             var student = await _studentsService.GetStudent(id);
 
-            var result = new Student
+            var result = new StudentDto
             {
                 FirstName = student.FirstName,
                 LastName = student.LastName,
@@ -56,9 +56,9 @@ namespace UniversityApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Student student)
+        public async Task<IActionResult> Post([FromBody] StudentDto student)
         {
-            var studentToAdd = new StudentDTO
+            var studentToAdd = new StudentDomainModel
             {
                 FirstName = student.FirstName,
                 LastName = student.LastName,
@@ -72,9 +72,9 @@ namespace UniversityApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Student student)
+        public async Task<IActionResult> Put(int id, [FromBody] StudentDto student)
         {
-            var studentToUpdate = new StudentDTO
+            var studentToUpdate = new StudentDomainModel
             {
                 FirstName = student.FirstName,
                 LastName = student.LastName,
@@ -97,6 +97,45 @@ namespace UniversityApp.Controllers
                 return BadRequest();
             }
 
+            return Ok();
+        }
+
+        [HttpGet("{id}/grades")]
+        public async Task<IActionResult> GetGrades(int id)
+        {
+            var grades = await _studentsService.GetStudentGrades(id);
+
+            var result = new List<GradeDto>();
+
+            foreach(var grade in grades)
+            {
+                result.Add(new GradeDto
+                {
+                    Value = grade.Value,
+                    Description = grade.Description
+                });
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("{id}/grades")]
+        public async Task<IActionResult> PostGrade(int id, GradeDto grade)
+        {
+            var gradeToAdd = new GradeDomainModel
+            {
+                Value = grade.Value,
+                Description = grade.Description
+            };
+
+            await _studentsService.AddStudentGrade(id, gradeToAdd);
+
+            return Ok();
+        }
+
+        [HttpPut("{id}/grades/{gradeId}")]
+        public async Task<IActionResult> PutGrade(int id, int gradeId, GradeDto grade)
+        {
             return Ok();
         }
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversityApp.BussinessLogic.DTO
+namespace UniversityApp.BussinessLogic.DomainModels
 {
-    public class StudentDTO
+    public class StudentDomainModel
     {
         public string FirstName;
         public string LastName;

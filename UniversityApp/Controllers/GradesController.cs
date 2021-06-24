@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UniversityApp.BussinessLogic.DTO;
+using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
 using UniversityApp.Models;
 
@@ -21,10 +21,10 @@ namespace UniversityApp.Controllers
             _gradesService = gradesService;
         }
 
-        [HttpGet("{studentId}")]
-        public async Task<IActionResult> Get(int studentId)
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            var result = await _gradesService.GetAllGrades(studentId);
+            var result = await _gradesService.GetAllGrades();
 
             if(result == null)
             {
@@ -34,18 +34,18 @@ namespace UniversityApp.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{studentId}")]
-        public async Task<IActionResult> Post(int studentId, [FromBody]Grade grade)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] GradeDto grade)
         {
-            var gradeToAdd = new GradeDTO
+            var gradeToUpdate = new GradeDomainModel
             {
                 Value = grade.Value,
                 Description = grade.Description
             };
 
-            var result = await _gradesService.AddGrade(studentId, gradeToAdd);
+            await _gradesService.UpdateGrade(id, gradeToUpdate);
 
-            return Ok(result);
+            return Ok();
         }
     }
 }

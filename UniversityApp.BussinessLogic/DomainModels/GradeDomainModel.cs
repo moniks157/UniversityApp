@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversityApp.Models
+namespace UniversityApp.BussinessLogic.DomainModels
 {
-    public class Grade
+    public class GradeDomainModel
     {
-        [Range(2,5)]
         public int Value { get; set; }
         public string Description { get; set; }
     }

@@ -144,3 +144,4 @@ C:\Users\mmaczkowiak\source\repos\UniversiyAppGitHub\UniversityApp\obj\Debug\net
 C:\Users\mmaczkowiak\source\repos\UniversiyAppGitHub\UniversityApp\obj\Debug\net5.0\ref\UniversityApp.dll
 C:\Users\mmaczkowiak\source\repos\UniversiyAppGitHub\UniversityApp\obj\Debug\net5.0\UniversityApp.pdb
 C:\Users\mmaczkowiak\source\repos\UniversiyAppGitHub\UniversityApp\obj\Debug\net5.0\UniversityApp.genruntimeconfig.cache
+C:\Users\mmaczkowiak\source\repos\UniversiyAppGitHub\UniversityApp\bin\Debug\net5.0\AutoMapper.dll
