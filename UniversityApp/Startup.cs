@@ -33,10 +33,8 @@ namespace UniversityApp
         {
             services.AddTransient<IStudentsService, StudentsService>();
             services.AddTransient<IGradesService, GradesService>();
-            services.AddTransient<IStudentsRepository, StudentsRepository>();
-            services.AddTransient<IGradesRepository, GradesRepository>();
+            services.AddDataAccess(Configuration);
 
-            services.AddDbContext<UniversityContext>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

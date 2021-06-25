@@ -8,9 +8,9 @@ namespace UniversityApp.DataAccess
         public DbSet<Student> Students { get; set; }
         public DbSet<Grade> Grades { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public UniversityContext(DbContextOptions<UniversityContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Data Source= (localdb)\\MSSQLLocalDB; Initial Catalog=UniversityAppData");
+
         }
     }
 }
