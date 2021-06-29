@@ -93,6 +93,11 @@ namespace UniversityApp.BussinessLogic.Services
         {
             var grades = await _gradesRepository.GetStudentGrades(id);
 
+            if(grades == null)
+            {
+                return null;
+            }
+
             var result = new List<GradeDomainModel>();
 
             foreach(var grade in grades)

@@ -12,6 +12,6 @@ namespace UniversityApp.DataAccess.Entities
         public int Value { get; set; }
         public string Description { get; set; }
         public int StudentId { get; set; }
-        public Student Student { get; set; }
+        public virtual Student Student { get; set; }
     }
 }

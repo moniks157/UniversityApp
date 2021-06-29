@@ -9,6 +9,6 @@ namespace UniversityApp.DataAccess.Entities
         public string LastName { get; set; }
         public int Age { get; set; } = 18;
         public string Gender { get; set; }
-        public List<Grade> Grades { get; set; } = new List<Grade>();
+        public virtual List<Grade> Grades { get; set; } = new List<Grade>();
     }
 }

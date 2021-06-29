@@ -37,15 +37,38 @@ namespace UniversityApp.DataAccess.Repositories
 
         public async Task<List<Grade>> GetStudentGrades(int studentId)
         {
-            var studentsWithGrades = await _context.Students.Include(g => g.Grades).ToListAsync();
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == studentId);
 
-            var grades = studentsWithGrades.Find(student => student.Id == studentId).Grades;
+            if(student == null)
+            {
+                return null;
+            }
+
+            var grades = student.Grades;
+
+            /*var studentsWithGrades = await _context.Students.Include(g => g.Grades).ToListAsync();
+
+            var grades = studentsWithGrades.Find(student => student.Id == studentId).Grades;*/
 
             return grades;
         }
 
+        public async Task<Grade> GetGrade(int id)
+        {
+            var grade = await _context.Grades.FirstOrDefaultAsync(g => g.Id == id);
+
+            return grade;
+        }
+
         public async Task<bool> UpdateGrade(Grade grade)
         {
+            var gradeToUpdate = await GetGrade(grade.Id);
+
+            if(gradeToUpdate == null)
+            {
+                return false;
+            }
+
             _context.Attach(grade);
             _context.Entry(grade).Property("Value").IsModified = true;
             _context.Entry(grade).Property("Description").IsModified = true;
@@ -54,7 +77,7 @@ namespace UniversityApp.DataAccess.Repositories
 
             return true;
         }
-
+        //by id
         public async Task<bool> DeleteGrades()
         {
             var grades = _context.Grades;

@@ -24,7 +24,7 @@ namespace UniversityApp.DataAccess.Repositories
 
         public async Task<Student> GetStudent(int id)
         {
-            var result = await _context.Students.FindAsync(id);
+            var result = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
 
             return result;
         }

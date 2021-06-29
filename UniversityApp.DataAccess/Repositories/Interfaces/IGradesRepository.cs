@@ -11,8 +11,9 @@ namespace UniversityApp.DataAccess.Repositories.Interfaces
     {
         Task<List<Grade>> GetAllStudentsGrades();
         Task<List<Grade>> GetStudentGrades(int studentId);
+        Task<Grade> GetGrade(int id);
         Task<int> AddGrade(int studentId, Grade grade);
         Task<bool> UpdateGrade(Grade grade);
-        //Task<bool> DeleteGrades();
+        Task<bool> DeleteGrades();
     }
 }

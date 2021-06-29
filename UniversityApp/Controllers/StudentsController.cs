@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
@@ -104,6 +105,11 @@ namespace UniversityApp.Controllers
         public async Task<IActionResult> GetGrades(int id)
         {
             var grades = await _studentsService.GetStudentGrades(id);
+
+            if(grades == null)
+            {
+                return BadRequest();
+            }
 
             var result = new List<GradeDto>();
 
