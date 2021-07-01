@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,10 +14,12 @@ namespace UniversityApp.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IStudentsService _studentsService;
+        private readonly IMapper _mapper;
 
-        public StudentsController(IStudentsService studentsService)
+        public StudentsController(IStudentsService studentsService, IMapper mapper)
         {
             _studentsService = studentsService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -24,18 +27,7 @@ namespace UniversityApp.Controllers
         {
             var students = await _studentsService.GetStudents();
 
-            var result = new List<StudentDto>();
-
-            foreach (var student in students)
-            {
-                result.Add(new StudentDto
-                {
-                    FirstName = student.FirstName,
-                    LastName = student.LastName,
-                    Age = student.Age,
-                    Gender = student.Gender
-                });
-            }
+            var result = _mapper.Map<List<StudentDto>>(students);
 
             return Ok(result);
         }
@@ -45,13 +37,7 @@ namespace UniversityApp.Controllers
         {
             var student = await _studentsService.GetStudent(id);
 
-            var result = new StudentDto
-            {
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Age = student.Age,
-                Gender = student.Gender
-            };
+            var result = _mapper.Map<StudentDto>(student);
 
             return Ok(result);
         }
@@ -59,13 +45,7 @@ namespace UniversityApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] StudentDto student)
         {
-            var studentToAdd = new StudentDomainModel
-            {
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Age = student.Age,
-                Gender = student.Gender
-            };
+            var studentToAdd = _mapper.Map<StudentDomainModel>(student);
 
             var id = await _studentsService.AddStudent(studentToAdd);
 
@@ -75,13 +55,7 @@ namespace UniversityApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] StudentDto student)
         {
-            var studentToUpdate = new StudentDomainModel
-            {
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Age = student.Age,
-                Gender = student.Gender
-            };
+            var studentToUpdate = _mapper.Map<StudentDomainModel>(student);
 
             var result = await _studentsService.UpdateStudent(id, studentToUpdate);
 
@@ -111,16 +85,7 @@ namespace UniversityApp.Controllers
                 return BadRequest();
             }
 
-            var result = new List<GradeDto>();
-
-            foreach(var grade in grades)
-            {
-                result.Add(new GradeDto
-                {
-                    Value = grade.Value,
-                    Description = grade.Description
-                });
-            }
+            var result = _mapper.Map<List<GradeDto>>(grades);
 
             return Ok(result);
         }
@@ -128,11 +93,7 @@ namespace UniversityApp.Controllers
         [HttpPost("{id}/grades")]
         public async Task<IActionResult> PostGrade(int id, GradeDto grade)
         {
-            var gradeToAdd = new GradeDomainModel
-            {
-                Value = grade.Value,
-                Description = grade.Description
-            };
+            var gradeToAdd = _mapper.Map<GradeDomainModel>(grade);
 
             await _studentsService.AddStudentGrade(id, gradeToAdd);
 
@@ -142,6 +103,7 @@ namespace UniversityApp.Controllers
         [HttpPut("{id}/grades/{gradeId}")]
         public async Task<IActionResult> PutGrade(int id, int gradeId, GradeDto grade)
         {
+            //To Do
             return Ok();
         }
     }

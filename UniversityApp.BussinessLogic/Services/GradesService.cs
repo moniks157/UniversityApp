@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,12 @@ namespace UniversityApp.BussinessLogic.Services
     public class GradesService : IGradesService
     {
         private readonly IGradesRepository _gradesRepository;
+        private readonly IMapper _mapper;
 
-        public GradesService(IGradesRepository gradesRepository)
+        public GradesService(IGradesRepository gradesRepository, IMapper mapper)
         {
             _gradesRepository = gradesRepository;
+            _mapper = mapper;
         }
 
         public async Task<List<GradeDomainModel>> GetAllGrades()
@@ -28,27 +31,14 @@ namespace UniversityApp.BussinessLogic.Services
                 return null;
             }
 
-            var result = new List<GradeDomainModel>();
-            foreach(var grade in grades)
-            {
-                result.Add(new GradeDomainModel
-                {
-                    Value = grade.Value,
-                    Description = grade.Description
-                });
-            }
+            var result = _mapper.Map<List<GradeDomainModel>>(grades);
 
             return result;
         }
 
         public async Task<bool> UpdateGrade(int gradeId, GradeDomainModel grade)
         {
-            var gradeToUpdate = new Grade
-            {
-                Id = gradeId,
-                Value = grade.Value,
-                Description = grade.Description
-            };
+            var gradeToUpdate = _mapper.Map<Grade>(grade);
 
             await _gradesRepository.UpdateGrade(gradeToUpdate);
 

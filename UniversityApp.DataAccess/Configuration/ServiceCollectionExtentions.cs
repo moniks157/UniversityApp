@@ -6,11 +6,11 @@ using UniversityApp.DataAccess.Repositories.Interfaces;
 
 namespace UniversityApp.DataAccess.Configuration
 {
-    public static class DataAccessDI
+    public static class ServiceCollectionExtentions
     {
         public static IServiceCollection AddDataAccessConnector(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<UniversityDatabaseConfig>(configuration.GetSection(UniversityDatabaseConfig.UniversityDatabaseConfigString));
+            services.Configure<UniversityDatabaseConfig>(configuration.GetSection(nameof(UniversityDatabaseConfig)));
             services.AddDbContext<UniversityContext>
                 (options => options
                     .UseLazyLoadingProxies());

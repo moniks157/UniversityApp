@@ -8,7 +8,6 @@ namespace UniversityApp.DataAccess.Configuration
 {
     public class UniversityDatabaseConfig
     {
-        public const string UniversityDatabaseConfigString = "UniversityDatabaseConfig";
         public string ConnectionString { get; set; }
     }
 }

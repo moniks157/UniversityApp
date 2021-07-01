@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 using UniversityApp.BussinessLogic.Configuration;
 using UniversityApp.DataAccess.Configuration;
 
@@ -24,6 +25,8 @@ namespace UniversityApp
             services.AddBusinessLogicServices();
             services.AddDataAccessRepositories();
             services.AddDataAccessConnector(Configuration);
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

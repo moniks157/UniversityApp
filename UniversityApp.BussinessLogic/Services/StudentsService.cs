@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
@@ -11,29 +12,20 @@ namespace UniversityApp.BussinessLogic.Services
     {
         private readonly IStudentsRepository _studentsRepository;
         private readonly IGradesRepository _gradesRepository;
+        private readonly IMapper _mapper;
 
-        public StudentsService(IStudentsRepository studentsRepository, IGradesRepository gradesRepository)
+        public StudentsService(IStudentsRepository studentsRepository, IGradesRepository gradesRepository, IMapper mapper)
         {
             _studentsRepository = studentsRepository;
             _gradesRepository = gradesRepository;
+            _mapper = mapper;
         }
 
         public async Task<List<StudentDomainModel>> GetStudents()
         {
             var students = await _studentsRepository.GetStudents();
 
-            var result = new List<StudentDomainModel>();
-
-            foreach(var student in students)
-            {
-                result.Add(new StudentDomainModel
-                {
-                    FirstName = student.FirstName,
-                    LastName = student.LastName,
-                    Age = student.Age,
-                    Gender = student.Gender
-                });
-            }
+            var result = _mapper.Map<List<StudentDomainModel>>(students);
 
             return result;
         }
@@ -42,26 +34,14 @@ namespace UniversityApp.BussinessLogic.Services
         {
             var student = await _studentsRepository.GetStudent(id);
 
-            var result = new StudentDomainModel
-            {
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Age = student.Age,
-                Gender = student.Gender
-            };
+            var result = _mapper.Map<StudentDomainModel>(student);
 
             return result;
         }
 
         public async Task<int> AddStudent(StudentDomainModel student)
         {
-            var studentToAdd = new Student 
-            {
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Age = student.Age,
-                Gender = student.Gender
-            };
+            var studentToAdd = _mapper.Map<Student>(student);
 
             await _studentsRepository.AddStudent(studentToAdd);
 
@@ -70,14 +50,7 @@ namespace UniversityApp.BussinessLogic.Services
 
         public async Task<bool> UpdateStudent(int id, StudentDomainModel student)
         {
-            var studentToUpdate = new Student
-            {
-                Id = id,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Age = student.Age,
-                Gender = student.Gender
-            };
+            var studentToUpdate = _mapper.Map<Student>(student);
 
             var result = await _studentsRepository.UpdateStudent(studentToUpdate);
 
@@ -91,35 +64,23 @@ namespace UniversityApp.BussinessLogic.Services
 
         public async Task<List<GradeDomainModel>> GetStudentGrades(int id)
         {
-            var grades = await _gradesRepository.GetStudentGrades(id);
+            var student = await _studentsRepository.GetStudent(id);
 
-            if(grades == null)
+            if(student == null)
             {
                 return null;
             }
 
-            var result = new List<GradeDomainModel>();
+            var grades = await _gradesRepository.GetStudentGrades(id);
 
-            foreach(var grade in grades)
-            {
-                result.Add(new GradeDomainModel
-                {
-                    Value = grade.Value,
-                    Description = grade.Description
-                });
-            }
+            var result = _mapper.Map<List<GradeDomainModel>>(grades);
 
             return result;
         }
 
         public async Task<int> AddStudentGrade(int id, GradeDomainModel grade)
         {
-            var gradeToAdd = new Grade
-            {
-                Value = grade.Value,
-                Description = grade.Description,
-                StudentId = id
-            };
+            var gradeToAdd = _mapper.Map<Grade>(grade);
 
             var result = await _gradesRepository.AddGrade(id, gradeToAdd);
 
@@ -128,12 +89,7 @@ namespace UniversityApp.BussinessLogic.Services
 
         public async Task<bool> UpdateStudentGarde(int id, int gradeId, GradeDomainModel grade)
         {
-            var gradeToUpdate = new Grade
-            {
-                Id = gradeId,
-                Value = grade.Value,
-                Description = grade.Description
-            };
+            var gradeToUpdate = _mapper.Map<Grade>(grade);
 
             await _gradesRepository.UpdateGrade(gradeToUpdate);
 
