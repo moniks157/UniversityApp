@@ -11,6 +11,6 @@ namespace UniversityApp.BussinessLogic.Services.Interfaces
     {
         Task<List<GradeDomainModel>> GetAllGrades();
         Task<bool> UpdateGrade(int gradeId, GradeDomainModel grade);
-        //Task<bool> DeleteAllGrades();
+        Task<bool> DeleteGrade(int id);
     }
 }

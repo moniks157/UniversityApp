@@ -16,13 +16,9 @@ namespace UniversityApp.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<int> AddGrade(int studentId, Grade grade)
+        public async Task<int> AddGrade(Grade grade)
         {
-            var student = await _context.Students.FindAsync(studentId);
-
-            _context.Attach(student);
-
-            student.Grades.Add(grade);
+            _context.Grades.Add(grade);
 
             await _context.SaveChangesAsync();
 
@@ -50,36 +46,43 @@ namespace UniversityApp.DataAccess.Repositories
             return grade;
         }
 
+        public async Task<Grade> GetGrade(int id, int studentId)
+        {
+            var grade = await _context.Grades.FirstOrDefaultAsync(g => g.Id == id && g.StudentId == studentId);
+
+            return grade;
+        }
+
         public async Task<bool> UpdateGrade(Grade grade)
         {
-            var gradeToUpdate = await GetGrade(grade.Id);
+            var gradeToUpdate = await GetGrade(grade.Id, grade.StudentId);
 
             if(gradeToUpdate == null)
             {
                 return false;
             }
 
-            _context.Attach(grade);
-            _context.Entry(grade).Property("Value").IsModified = true;
-            _context.Entry(grade).Property("Description").IsModified = true;
+            gradeToUpdate.Value = grade.Value;
+            gradeToUpdate.Description = grade.Description;
 
             await _context.SaveChangesAsync();
 
             return true;
         }
-        //by id
-        public async Task<bool> DeleteGrades()
+        
+        public async Task<bool> DeleteGrade(int id)
         {
-            var grades = _context.Grades;
+            var grade = await GetGrade(id);
 
-            foreach(var grade in grades)
+            if(grade == null)
             {
-                _context.Grades.Remove(grade);
+                return false;
             }
 
+            _context.Grades.Remove(grade);
             await _context.SaveChangesAsync();
 
-            return false;
+            return true;
         }
     }
 }

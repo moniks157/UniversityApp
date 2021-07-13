@@ -37,6 +37,11 @@ namespace UniversityApp.Controllers
         {
             var student = await _studentsService.GetStudent(id);
 
+            if(student == null)
+            {
+                return NotFound();
+            }
+
             var result = _mapper.Map<StudentDto>(student);
 
             return Ok(result);
@@ -59,7 +64,12 @@ namespace UniversityApp.Controllers
 
             var result = await _studentsService.UpdateStudent(id, studentToUpdate);
 
-            return Ok(result);
+            if(!result)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -95,15 +105,28 @@ namespace UniversityApp.Controllers
         {
             var gradeToAdd = _mapper.Map<GradeDomainModel>(grade);
 
-            await _studentsService.AddStudentGrade(id, gradeToAdd);
+            var gradeId = await _studentsService.AddStudentGrade(id, gradeToAdd);
 
-            return Ok();
+            if(gradeId == null)
+            {
+                return BadRequest();
+            }
+
+            return Created($"~api/students/{id}/grades/{gradeId}", gradeId);
         }
 
         [HttpPut("{id}/grades/{gradeId}")]
         public async Task<IActionResult> PutGrade(int id, int gradeId, GradeDto grade)
         {
-            //To Do
+            var gradeToUpdate = _mapper.Map<GradeDomainModel>(grade);
+
+            var result = await _studentsService.UpdateStudentGarde(id, gradeId, gradeToUpdate);
+
+            if(!result)
+            {
+                return BadRequest();
+            }
+
             return Ok();
         }
     }

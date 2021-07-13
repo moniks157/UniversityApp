@@ -45,9 +45,11 @@ namespace UniversityApp.BussinessLogic.Services
             return true;
         }
 
-        public async Task<bool> DeleteGrades()
+        public async Task<bool> DeleteGrade(int id)
         {
-            return false;
+            var result = await _gradesRepository.DeleteGrade(id);
+
+            return result;
         }
     }
 }

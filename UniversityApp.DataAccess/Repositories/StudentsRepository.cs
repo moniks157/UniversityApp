@@ -40,11 +40,17 @@ namespace UniversityApp.DataAccess.Repositories
 
         public async Task<bool> UpdateStudent(Student student)
         {
-            _context.Attach(student);
-            _context.Entry(student).Property("FirstName").IsModified = true;
-            _context.Entry(student).Property("LastName").IsModified = true;
-            _context.Entry(student).Property("Age").IsModified = true;
-            _context.Entry(student).Property("Gender").IsModified = true;
+            var studentToUpdate = await GetStudent(student.Id);
+
+            if(studentToUpdate == null)
+            {
+                return false;
+            }
+
+            studentToUpdate.FirstName = student.FirstName;
+            studentToUpdate.LastName = student.LastName;
+            studentToUpdate.Age = student.Age;
+            studentToUpdate.Gender = student.Gender;
 
             await _context.SaveChangesAsync();
 
@@ -53,7 +59,7 @@ namespace UniversityApp.DataAccess.Repositories
 
         public async Task<bool> DeleteStudent(int id)
         {
-            var student = await _context.Students.FindAsync(id);
+            var student = await GetStudent(id);
 
             if (student == null)
             {

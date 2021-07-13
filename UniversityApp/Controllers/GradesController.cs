@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace UniversityApp.Controllers
     public class GradesController : ControllerBase
     {
         private readonly IGradesService _gradesService;
+        private readonly IMapper _mapper;
 
-        public GradesController(IGradesService gradesService)
+        public GradesController(IGradesService gradesService, IMapper mapper)
         {
             _gradesService = gradesService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -37,15 +40,29 @@ namespace UniversityApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] GradeDto grade)
         {
-            var gradeToUpdate = new GradeDomainModel
-            {
-                Value = grade.Value,
-                Description = grade.Description
-            };
+            var gradeToUpdate = _mapper.Map<GradeDomainModel>(grade);
 
-            await _gradesService.UpdateGrade(id, gradeToUpdate);
+            var result = await _gradesService.UpdateGrade(id, gradeToUpdate);
+
+            if(!result)
+            {
+                return BadRequest();
+            }
 
             return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _gradesService.DeleteGrade(id);
+
+            if(!result)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
         }
     }
 }

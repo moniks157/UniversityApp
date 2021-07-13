@@ -52,6 +52,8 @@ namespace UniversityApp.BussinessLogic.Services
         {
             var studentToUpdate = _mapper.Map<Student>(student);
 
+            studentToUpdate.Id = id;
+
             var result = await _studentsRepository.UpdateStudent(studentToUpdate);
 
             return result;
@@ -59,7 +61,9 @@ namespace UniversityApp.BussinessLogic.Services
 
         public async Task<bool> DeleteStudent(int id)
         {
-            return await _studentsRepository.DeleteStudent(id);
+            var result = await _studentsRepository.DeleteStudent(id);
+
+            return result;
         }
 
         public async Task<List<GradeDomainModel>> GetStudentGrades(int id)
@@ -78,11 +82,20 @@ namespace UniversityApp.BussinessLogic.Services
             return result;
         }
 
-        public async Task<int> AddStudentGrade(int id, GradeDomainModel grade)
+        public async Task<int?> AddStudentGrade(int id, GradeDomainModel grade)
         {
+            var student = await _studentsRepository.GetStudent(id);
+
+            if(student == null)
+            {
+                return null;
+            }
+
             var gradeToAdd = _mapper.Map<Grade>(grade);
 
-            var result = await _gradesRepository.AddGrade(id, gradeToAdd);
+            gradeToAdd.StudentId = id;
+
+            var result = await _gradesRepository.AddGrade(gradeToAdd);
 
             return result;
         }
@@ -91,9 +104,12 @@ namespace UniversityApp.BussinessLogic.Services
         {
             var gradeToUpdate = _mapper.Map<Grade>(grade);
 
-            await _gradesRepository.UpdateGrade(gradeToUpdate);
+            gradeToUpdate.Id = gradeId;
+            gradeToUpdate.StudentId = id;
 
-            return true;
+            var result = await _gradesRepository.UpdateGrade(gradeToUpdate);
+
+            return result;
         }
     }
 }
