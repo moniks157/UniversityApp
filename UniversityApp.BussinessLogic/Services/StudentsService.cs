@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
 using UniversityApp.DataAccess.Entities;
-using UniversityApp.DataAccess.Models;
 using UniversityApp.DataAccess.Repositories.Interfaces;
 
 namespace UniversityApp.BussinessLogic.Services

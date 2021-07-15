@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UniversityApp.DataAccess.Entities;
-using UniversityApp.DataAccess.Models;
 using UniversityApp.DataAccess.Repositories.Interfaces;
 
 namespace UniversityApp.DataAccess.Repositories
