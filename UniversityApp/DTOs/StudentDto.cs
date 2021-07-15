@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UniversityApp.Models
+namespace UniversityApp.DTOs
 {
     public class StudentDto
     {

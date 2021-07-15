@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
-using UniversityApp.Models;
+using UniversityApp.DTOs;
 
 namespace UniversityApp.DTOs
 {

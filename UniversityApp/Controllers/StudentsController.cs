@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
-using UniversityApp.Models;
+using UniversityApp.DTOs;
+using UniversityApp.Pagination;
 
 namespace UniversityApp.Controllers
 {
@@ -30,6 +31,17 @@ namespace UniversityApp.Controllers
             var result = _mapper.Map<List<StudentDto>>(students);
 
             return Ok(result);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] StudentSearchModel student, int pageNumber = 1, int pageSize = 10)
+        {
+            var data = await _studentsService.SearchStudents(student, pageNumber, pageSize);
+
+            var students = _mapper.Map<List<StudentDto>>(data.Students);
+
+            return Ok(new PagedModel<StudentDto>(students, pageNumber, pageSize, data.TotalRecordCount));
+
         }
 
         [HttpGet("{id}")]

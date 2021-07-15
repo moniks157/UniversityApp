@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UniversityApp.DataAccess.Entities;
+using UniversityApp.DataAccess.Models;
 using UniversityApp.DataAccess.Repositories.Interfaces;
 
 namespace UniversityApp.DataAccess.Repositories
@@ -18,6 +22,27 @@ namespace UniversityApp.DataAccess.Repositories
         public async Task<List<Student>> GetStudents()
         {
             var result = await _context.Students.ToListAsync();
+
+            return result;
+        }
+
+        public async Task<(List<Student> Students, int TotalRecordCount)> GetStudents(List<Expression<Func<Student, bool>>> predicates, int skip, int amount)
+        {
+            var students = _context.Students.AsQueryable();
+
+            if(predicates != null)
+            {
+                foreach(var predicate in predicates)
+                {
+                    students = students.Where(predicate);
+                }
+            }
+
+            var data = await students.Skip(skip).Take(amount).ToListAsync();
+
+            var totalRecordsCount = students.Count();
+
+            var result = (data, totalRecordsCount);
 
             return result;
         }

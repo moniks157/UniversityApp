@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
 using UniversityApp.DataAccess.Entities;
+using UniversityApp.DataAccess.Models;
 using UniversityApp.DataAccess.Repositories.Interfaces;
 
 namespace UniversityApp.BussinessLogic.Services
@@ -27,6 +30,43 @@ namespace UniversityApp.BussinessLogic.Services
 
             var result = _mapper.Map<List<StudentDomainModel>>(students);
 
+            return result;
+        }
+
+        public async Task<(List<StudentDomainModel> Students, int TotalRecordCount)> SearchStudents(StudentSearchModel student, int pageNo, int pageSize)
+        {
+            int skip = (pageNo - 1) * pageSize;
+
+            Expression<Func<Student, bool>> ContainsFirstname = s => s.FirstName.Contains(student.FirstName);
+            Expression<Func<Student, bool>> ContainsLastName = s => s.LastName.Contains(student.LastName);
+            Expression<Func<Student, bool>> IsAge = s => s.Age == student.Age;
+            Expression<Func<Student, bool>> IsGender = s => s.Gender.Contains(student.Gender);
+
+            var predicates = new List<Expression<Func<Student, bool>>>();
+
+            if(!String.IsNullOrEmpty(student.FirstName))
+            {
+                predicates.Add(ContainsFirstname);
+            }
+            if (!String.IsNullOrEmpty(student.LastName))
+            {
+                predicates.Add(ContainsLastName);
+            }
+            if (student.Age != null)
+            {
+                predicates.Add(IsAge);
+            }
+            if (!String.IsNullOrEmpty(student.Gender))
+            {
+                predicates.Add(IsGender);
+            }
+
+            var data = await _studentsRepository.GetStudents(predicates, skip, pageSize);
+
+            var students = _mapper.Map<List<StudentDomainModel>>(data.Students);
+
+            var result = (students, data.TotalRecordCount);
+            
             return result;
         }
 

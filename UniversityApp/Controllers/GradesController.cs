@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
-using UniversityApp.Models;
+using UniversityApp.DTOs;
 
 namespace UniversityApp.Controllers
 {

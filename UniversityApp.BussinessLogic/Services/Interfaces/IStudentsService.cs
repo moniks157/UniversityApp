@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
 
@@ -7,6 +8,7 @@ namespace UniversityApp.BussinessLogic.Services.Interfaces
     public interface IStudentsService
     {
         Task<List<StudentDomainModel>> GetStudents();
+        Task<(List<StudentDomainModel> Students, int TotalRecordCount)> SearchStudents(StudentSearchModel student, int pageNo, int pageSize);
         Task<StudentDomainModel> GetStudent(int id);
         Task<int> AddStudent(StudentDomainModel student);
         Task<bool> UpdateStudent(int id, StudentDomainModel student);
