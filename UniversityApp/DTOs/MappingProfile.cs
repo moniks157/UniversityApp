@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
+using UniversityApp.DataAccess.Models;
 using UniversityApp.DTOs;
 
 namespace UniversityApp.DTOs
@@ -17,6 +18,9 @@ namespace UniversityApp.DTOs
 
             CreateMap<GradeDomainModel, GradeDto>();
             CreateMap<GradeDto, GradeDomainModel>();
+
+            CreateMap<StudentSearchParametersDto, StudentSearchParametersDomainModel>();
+            CreateMap<StudentSearchParametersDomainModel, StudentSearchParameters>();
         }
     }
 }

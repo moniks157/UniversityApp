@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UniversityApp.DataAccess.Entities;
+using UniversityApp.DataAccess.Models;
 using UniversityApp.DataAccess.Repositories.Interfaces;
 
 namespace UniversityApp.DataAccess.Repositories
@@ -25,19 +26,30 @@ namespace UniversityApp.DataAccess.Repositories
             return result;
         }
 
-        public async Task<(List<Student> Students, int TotalRecordCount)> GetStudents(List<Expression<Func<Student, bool>>> predicates, int skip, int amount)
+        public async Task<(List<Student> Students, int TotalRecordCount)> GetStudents(StudentSearchParameters studentSearchParameters)
         {
             var students = _context.Students.AsQueryable();
 
-            if(predicates != null)
+            if (!String.IsNullOrEmpty(studentSearchParameters.FirstName))
             {
-                foreach(var predicate in predicates)
-                {
-                    students = students.Where(predicate);
-                }
+                students = students.Where(s => s.FirstName.Contains(studentSearchParameters.FirstName));
+            }
+            if (!String.IsNullOrEmpty(studentSearchParameters.LastName))
+            {
+                students = students.Where(s => s.LastName.Contains(studentSearchParameters.LastName));
+            }
+            if (studentSearchParameters.Age != null)
+            {
+                students = students.Where(s => s.Age == studentSearchParameters.Age);
+            }
+            if (!String.IsNullOrEmpty(studentSearchParameters.Gender))
+            {
+                students = students.Where(s => s.Gender.Contains(studentSearchParameters.Gender));
             }
 
-            var data = await students.Skip(skip).Take(amount).ToListAsync();
+            int skip = (studentSearchParameters.PageNumber - 1) * studentSearchParameters.PageSize;
+
+            var data = await students.Skip(skip).Take(studentSearchParameters.PageSize).ToListAsync();
 
             var totalRecordsCount = students.Count();
 

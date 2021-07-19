@@ -8,7 +8,7 @@ namespace UniversityApp.BussinessLogic.Services.Interfaces
     public interface IStudentsService
     {
         Task<List<StudentDomainModel>> GetStudents();
-        Task<(List<StudentDomainModel> Students, int TotalRecordCount)> SearchStudents(StudentSearchModel student, int pageNo, int pageSize);
+        Task<(List<StudentDomainModel> Students, int TotalRecordCount)> SearchStudents(StudentSearchParametersDomainModel studentSearchModel);
         Task<StudentDomainModel> GetStudent(int id);
         Task<int> AddStudent(StudentDomainModel student);
         Task<bool> UpdateStudent(int id, StudentDomainModel student);

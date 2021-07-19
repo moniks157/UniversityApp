@@ -34,14 +34,13 @@ namespace UniversityApp.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] StudentSearchModel student, int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> Search([FromQuery] StudentSearchParametersDto searchParameters)
         {
-            var data = await _studentsService.SearchStudents(student, pageNumber, pageSize);
+            var searchData = _mapper.Map<StudentSearchParametersDomainModel>(searchParameters);
+            var data = await _studentsService.SearchStudents(searchData);
 
             var students = _mapper.Map<List<StudentDto>>(data.Students);
-
-            return Ok(new PagedModel<StudentDto>(students, pageNumber, pageSize, data.TotalRecordCount));
-
+            return Ok(new PagedModel<StudentDto>(students, searchData.PageNumber, searchData.PageSize, data.TotalRecordCount));
         }
 
         [HttpGet("{id}")]
