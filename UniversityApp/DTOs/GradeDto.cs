@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace UniversityApp.DTOs
 {
+
     public class GradeDto
     {
-        [Range(2,5)]
-        public int Value { get; set; }
+        public double Value { get; set; }
         public string Description { get; set; }
+        public int StudentId { get; set; }
     }
 }

@@ -13,9 +13,9 @@ namespace UniversityApp.DTOs
         public int? Age { get; set; }
         public string Gender { get; set; }
 
-        [Required()]
+        [Required]
         public int PageNumber { get; set; }
-        [Required()]
+        [Required]
         [Range(Constants.MIN_PAGE_SIZE, Constants.MAX_PAGE_SIZE)]
         public int PageSize { get; set; }
     }

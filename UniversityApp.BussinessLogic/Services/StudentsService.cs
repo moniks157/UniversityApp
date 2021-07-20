@@ -99,34 +99,36 @@ namespace UniversityApp.BussinessLogic.Services
             return result;
         }
 
-        public async Task<int?> AddStudentGrade(int id, GradeDomainModel grade)
+        public async Task<int?> AddStudentGrade(GradeDomainModel grade)
         {
-            var student = await _studentsRepository.GetStudent(id);
-
-            if(student == null)
+            if (!(await StudentExists(grade.StudentId)))
             {
                 return null;
             }
 
             var gradeToAdd = _mapper.Map<Grade>(grade);
 
-            gradeToAdd.StudentId = id;
-
             var result = await _gradesRepository.AddGrade(gradeToAdd);
 
             return result;
         }
 
-        public async Task<bool> UpdateStudentGarde(int id, int gradeId, GradeDomainModel grade)
+        public async Task<bool> UpdateStudentGarde(int gradeId, GradeDomainModel grade)
         {
             var gradeToUpdate = _mapper.Map<Grade>(grade);
 
             gradeToUpdate.Id = gradeId;
-            gradeToUpdate.StudentId = id;
 
             var result = await _gradesRepository.UpdateGrade(gradeToUpdate);
 
             return result;
+        }
+
+        public async Task<bool> StudentExists(int id)
+        {
+            var student = await _studentsRepository.GetStudent(id);
+
+            return student != null;
         }
     }
 }

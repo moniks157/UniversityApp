@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using UniversityApp.BussinessLogic.Configuration;
+using UniversityApp.Configuration;
 using UniversityApp.DataAccess.Configuration;
 
 namespace UniversityApp
@@ -25,6 +27,7 @@ namespace UniversityApp
             services.AddBusinessLogicServices();
             services.AddDataAccessRepositories();
             services.AddDataAccessConnector(Configuration);
+            services.AddValidators();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

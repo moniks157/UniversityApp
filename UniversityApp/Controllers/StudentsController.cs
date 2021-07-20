@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
 using UniversityApp.DTOs;
 using UniversityApp.Pagination;
+using UniversityApp.Validators;
 
 namespace UniversityApp.Controllers
 {
@@ -16,11 +18,15 @@ namespace UniversityApp.Controllers
     {
         private readonly IStudentsService _studentsService;
         private readonly IMapper _mapper;
+        private readonly IValidator<StudentDto> _studentValidator;
+        private readonly IValidator<GradeDto> _gradeValidator;
 
-        public StudentsController(IStudentsService studentsService, IMapper mapper)
+        public StudentsController(IStudentsService studentsService, IMapper mapper, IValidator<StudentDto> studentValidator, IValidator<GradeDto> gradeValidator)
         {
             _studentsService = studentsService;
             _mapper = mapper;
+            _studentValidator = studentValidator;
+            _gradeValidator = gradeValidator;
         }
 
         [HttpGet]
@@ -40,7 +46,13 @@ namespace UniversityApp.Controllers
             var data = await _studentsService.SearchStudents(searchData);
 
             var students = _mapper.Map<List<StudentDto>>(data.Students);
-            return Ok(new PagedModel<StudentDto>(students, searchData.PageNumber, searchData.PageSize, data.TotalRecordCount));
+            return Ok(new PagedModel<StudentDto>
+            {
+                PageNo = searchParameters.PageNumber,
+                PageSize = searchParameters.PageSize,
+                Data = students,
+                TotalRecordCount = data.TotalRecordCount
+            });
         }
 
         [HttpGet("{id}")]
@@ -61,6 +73,13 @@ namespace UniversityApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] StudentDto student)
         {
+            var studentValidation = _studentValidator.Validate(student);
+
+            if(!studentValidation.IsValid)
+            {
+                return BadRequest();
+            }
+
             var studentToAdd = _mapper.Map<StudentDomainModel>(student);
 
             var id = await _studentsService.AddStudent(studentToAdd);
@@ -114,9 +133,18 @@ namespace UniversityApp.Controllers
         [HttpPost("{id}/grades")]
         public async Task<IActionResult> PostGrade(int id, GradeDto grade)
         {
+            grade.StudentId = id;
+
+            var gradeValidation = await _gradeValidator.ValidateAsync(grade);
+
+            if(gradeValidation.IsValid)
+            {
+                return BadRequest();
+            }
+
             var gradeToAdd = _mapper.Map<GradeDomainModel>(grade);
 
-            var gradeId = await _studentsService.AddStudentGrade(id, gradeToAdd);
+            var gradeId = await _studentsService.AddStudentGrade(gradeToAdd);
 
             if(gradeId == null)
             {
@@ -129,9 +157,11 @@ namespace UniversityApp.Controllers
         [HttpPut("{id}/grades/{gradeId}")]
         public async Task<IActionResult> PutGrade(int id, int gradeId, GradeDto grade)
         {
+            grade.StudentId = id;
+
             var gradeToUpdate = _mapper.Map<GradeDomainModel>(grade);
 
-            var result = await _studentsService.UpdateStudentGarde(id, gradeId, gradeToUpdate);
+            var result = await _studentsService.UpdateStudentGarde(gradeId, gradeToUpdate);
 
             if(!result)
             {
