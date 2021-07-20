@@ -30,32 +30,56 @@ namespace UniversityApp.DataAccess.Repositories
         {
             var students = _context.Students.AsQueryable();
 
-            if (!String.IsNullOrEmpty(studentSearchParameters.FirstName))
-            {
-                students = students.Where(s => s.FirstName.Contains(studentSearchParameters.FirstName));
-            }
-            if (!String.IsNullOrEmpty(studentSearchParameters.LastName))
-            {
-                students = students.Where(s => s.LastName.Contains(studentSearchParameters.LastName));
-            }
-            if (studentSearchParameters.Age != null)
-            {
-                students = students.Where(s => s.Age == studentSearchParameters.Age);
-            }
-            if (!String.IsNullOrEmpty(studentSearchParameters.Gender))
-            {
-                students = students.Where(s => s.Gender.Contains(studentSearchParameters.Gender));
-            }
+            students = SearchStudentByFirstName(studentSearchParameters.FirstName, students);
+            students = SearchStudentByLastName(studentSearchParameters.LastName, students);
+            students = SearchStudentByAge(studentSearchParameters.Age, students);
+            students = SearchStudentByGender(studentSearchParameters.Gender, students);
 
-            int skip = (studentSearchParameters.PageNumber - 1) * studentSearchParameters.PageSize;
+            int recordsToBeSkipped = (studentSearchParameters.PageNumber - 1) * studentSearchParameters.PageSize;
 
-            var data = await students.Skip(skip).Take(studentSearchParameters.PageSize).ToListAsync();
+            var data = await students.Skip(recordsToBeSkipped).Take(studentSearchParameters.PageSize).ToListAsync();
 
             var totalRecordsCount = students.Count();
 
             var result = (data, totalRecordsCount);
 
             return result;
+        }
+
+        private IQueryable<Student> SearchStudentByFirstName(string firstName, IQueryable<Student> students)
+        {
+            if (!String.IsNullOrEmpty(firstName))
+            {
+                students = students.Where(s => s.FirstName.Contains(firstName));
+            }
+            return students;
+        }
+
+        private IQueryable<Student> SearchStudentByLastName(string lastName, IQueryable<Student> students)
+        {
+            if (!String.IsNullOrEmpty(lastName))
+            {
+                students = students.Where(s => s.LastName.Contains(lastName));
+            }
+            return students;
+        }
+
+        private IQueryable<Student> SearchStudentByAge(int? age, IQueryable<Student> students)
+        {
+            if (age != null)
+            {
+                students = students.Where(s => s.Age == age);
+            }
+            return students;
+        }
+
+        private IQueryable<Student> SearchStudentByGender(string gender, IQueryable<Student> students)
+        {
+            if (!String.IsNullOrEmpty(gender))
+            {
+                students = students.Where(s => s.Gender.Contains(gender));
+            }
+            return students;
         }
 
         public async Task<Student> GetStudent(int id)
