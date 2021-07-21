@@ -12,26 +12,25 @@ namespace UniversityApp.Validators
         public StudentValidator()
         {
             RuleFor(student => student.LastName)
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
-                .Matches(Constants.NAME_REGEX)
+                .Matches(Constants.NAME_REGEX).WithMessage("LastName must start with capital letter and be compose of letters only")
                 .DependentRules(() =>
                 {
                     RuleFor(student => student.FirstName)
-                        .Cascade(CascadeMode.Stop)
                         .NotNull()
                         .NotEqual(student => student.LastName)
                         .Matches(Constants.NAME_REGEX);
                 });
 
             RuleFor(student => student.Age)
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
-                .InclusiveBetween(Constants.MIN_AGE, Constants.MAX_AGE)
-                .GreaterThan(Constants.AGE_OF_ADULTHOOD).When(student => student.IsAdult);
+                .InclusiveBetween(Constants.MIN_AGE, Constants.MAX_AGE);
+
+            RuleFor(student => student.IsAdult)
+                .Equal(true).When(student => student.Age >= Constants.AGE_OF_ADULTHOOD)
+                .WithMessage($"IsAdult must be true if Age is grater than or equal to {Constants.AGE_OF_ADULTHOOD}");
 
             RuleFor(student => student.Gender)
-                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .Matches(Constants.GENDER_REGEX);
         }

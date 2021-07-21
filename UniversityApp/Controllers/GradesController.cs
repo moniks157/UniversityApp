@@ -47,7 +47,7 @@ namespace UniversityApp.Controllers
 
             if(!gradeValidation.IsValid)
             {
-                return BadRequest();
+                return BadRequest(gradeValidation.Errors);
             }
 
             var gradeToUpdate = _mapper.Map<GradeDomainModel>(grade);

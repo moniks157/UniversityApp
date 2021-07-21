@@ -16,6 +16,6 @@ namespace UniversityApp.BussinessLogic.Services.Interfaces
         Task<List<GradeDomainModel>> GetStudentGrades(int id);
         Task<int?> AddStudentGrade(GradeDomainModel grade);
         Task<bool> UpdateStudentGarde(int gradeId, GradeDomainModel grade);
-        Task<bool> StudentExists(int id);
+        Task<bool> DoesStudentExists(int id);
     }
 }

@@ -33,7 +33,7 @@ namespace UniversityApp.Validators
             RuleFor(grade => grade.StudentId)
                 .MustAsync(async (studentId, cancellation) =>
                 {
-                    var exists = await _studentsService.StudentExists(studentId);
+                    var exists = await _studentsService.DoesStudentExists(studentId);
                     return exists;
                 }).WithMessage("Student doesn't exist in this context");
         }

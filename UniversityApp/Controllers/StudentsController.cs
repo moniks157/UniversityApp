@@ -77,7 +77,7 @@ namespace UniversityApp.Controllers
 
             if(!studentValidation.IsValid)
             {
-                return BadRequest();
+                return BadRequest(studentValidation.Errors);
             }
 
             var studentToAdd = _mapper.Map<StudentDomainModel>(student);
@@ -139,7 +139,7 @@ namespace UniversityApp.Controllers
 
             if(gradeValidation.IsValid)
             {
-                return BadRequest();
+                return BadRequest(gradeValidation.Errors);
             }
 
             var gradeToAdd = _mapper.Map<GradeDomainModel>(grade);
