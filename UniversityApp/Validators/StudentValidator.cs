@@ -13,13 +13,13 @@ namespace UniversityApp.Validators
         {
             RuleFor(student => student.LastName)
                 .NotNull()
-                .Matches(Constants.NAME_REGEX).WithMessage("LastName must start with capital letter and be compose of letters only")
+                .Matches(Constants.LASTNAME_REGEX).WithMessage("LastName must start with capital letter and be compose of letters only")
                 .DependentRules(() =>
                 {
                     RuleFor(student => student.FirstName)
                         .NotNull()
                         .NotEqual(student => student.LastName)
-                        .Matches(Constants.NAME_REGEX);
+                        .Matches(Constants.FIRSTNAME_REGEX);
                 });
 
             RuleFor(student => student.Age)
@@ -28,6 +28,10 @@ namespace UniversityApp.Validators
 
             RuleFor(student => student.IsAdult)
                 .Equal(true).When(student => student.Age >= Constants.AGE_OF_ADULTHOOD)
+                .WithMessage($"IsAdult must be true if Age is grater than or equal to {Constants.AGE_OF_ADULTHOOD}"); ;
+
+            RuleFor(student => student.IsAdult)
+                .Equal(false).When(student => student.Age < Constants.AGE_OF_ADULTHOOD)
                 .WithMessage($"IsAdult must be true if Age is grater than or equal to {Constants.AGE_OF_ADULTHOOD}");
 
             RuleFor(student => student.Gender)

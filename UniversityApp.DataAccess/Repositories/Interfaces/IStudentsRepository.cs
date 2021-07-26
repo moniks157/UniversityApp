@@ -15,5 +15,6 @@ namespace UniversityApp.DataAccess.Repositories.Interfaces
         Task<int> AddStudent(Student student);
         Task<bool> UpdateStudent(Student student);
         Task<bool> DeleteStudent(int id);
+        Task<bool> DoesStudentExist(int id);
     }
 }

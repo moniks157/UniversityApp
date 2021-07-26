@@ -28,58 +28,16 @@ namespace UniversityApp.DataAccess.Repositories
 
         public async Task<(List<Student> Students, int TotalRecordCount)> GetStudents(StudentSearchParameters studentSearchParameters)
         {
-            var students = _context.Students.AsQueryable();
-
-            students = SearchStudentByFirstName(studentSearchParameters.FirstName, students);
-            students = SearchStudentByLastName(studentSearchParameters.LastName, students);
-            students = SearchStudentByAge(studentSearchParameters.Age, students);
-            students = SearchStudentByGender(studentSearchParameters.Gender, students);
+            var students = SearchStudentByParameters(studentSearchParameters);
 
             int recordsToBeSkipped = (studentSearchParameters.PageNumber - 1) * studentSearchParameters.PageSize;
 
-            var data = await students.Skip(recordsToBeSkipped).Take(studentSearchParameters.PageSize).ToListAsync();
+            var data = await students
+                .Skip(recordsToBeSkipped)
+                .Take(studentSearchParameters.PageSize)
+                .ToListAsync();
 
-            var totalRecordsCount = students.Count();
-
-            var result = (data, totalRecordsCount);
-
-            return result;
-        }
-
-        private IQueryable<Student> SearchStudentByFirstName(string firstName, IQueryable<Student> students)
-        {
-            if (!String.IsNullOrEmpty(firstName))
-            {
-                students = students.Where(s => s.FirstName.Contains(firstName));
-            }
-            return students;
-        }
-
-        private IQueryable<Student> SearchStudentByLastName(string lastName, IQueryable<Student> students)
-        {
-            if (!String.IsNullOrEmpty(lastName))
-            {
-                students = students.Where(s => s.LastName.Contains(lastName));
-            }
-            return students;
-        }
-
-        private IQueryable<Student> SearchStudentByAge(int? age, IQueryable<Student> students)
-        {
-            if (age != null)
-            {
-                students = students.Where(s => s.Age == age);
-            }
-            return students;
-        }
-
-        private IQueryable<Student> SearchStudentByGender(string gender, IQueryable<Student> students)
-        {
-            if (!String.IsNullOrEmpty(gender))
-            {
-                students = students.Where(s => s.Gender.Contains(gender));
-            }
-            return students;
+            return (data, students.Count());
         }
 
         public async Task<Student> GetStudent(int id)
@@ -130,6 +88,36 @@ namespace UniversityApp.DataAccess.Repositories
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<bool> DoesStudentExist(int id)
+        {
+            var exists = await _context.Students.AnyAsync(student => student.Id == id);
+
+            return exists;
+        }
+
+        private IQueryable<Student> SearchStudentByParameters(StudentSearchParameters searchParameters)
+        {
+            var students = _context.Students.AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchParameters.FirstName))
+            {
+                students = students.Where(s => s.FirstName.Contains(searchParameters.FirstName));
+            }
+            if (!String.IsNullOrEmpty(searchParameters.LastName))
+            {
+                students = students.Where(s => s.LastName.Contains(searchParameters.LastName));
+            }
+            if (searchParameters.Age != null)
+            {
+                students = students.Where(s => s.Age == searchParameters.Age);
+            }
+            if (!String.IsNullOrEmpty(searchParameters.Gender))
+            {
+                students = students.Where(s => s.Gender.Contains(searchParameters.Gender));
+            }
+            return students;
         }
     }
 }

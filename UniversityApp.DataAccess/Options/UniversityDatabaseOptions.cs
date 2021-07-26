@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversityApp.DataAccess.Configuration
+namespace UniversityApp.DataAccess.Options
 {
-    public class UniversityDatabaseConfig
+    public class UniversityDatabaseOptions
     {
         public string ConnectionString { get; set; }
     }

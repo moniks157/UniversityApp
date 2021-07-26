@@ -14,7 +14,7 @@ namespace UniversityApp.Configuration
         public static IServiceCollection AddValidators(this IServiceCollection services)
         {
             services.AddScoped<IValidator<StudentDto>, StudentValidator>();
-            services.AddScoped<IValidator<GradeDto>, GradeValidatior>();
+            services.AddScoped<IValidator<GradeDto>, GradeValidator>();
 
             return services;
         }

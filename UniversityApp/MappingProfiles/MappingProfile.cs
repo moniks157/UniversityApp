@@ -7,7 +7,7 @@ using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.DataAccess.Models;
 using UniversityApp.DTOs;
 
-namespace UniversityApp.DTOs
+namespace UniversityApp.MappingProfiles
 {
     public class MappingProfile : Profile
     {

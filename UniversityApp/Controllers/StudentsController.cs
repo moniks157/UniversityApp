@@ -20,13 +20,15 @@ namespace UniversityApp.Controllers
         private readonly IMapper _mapper;
         private readonly IValidator<StudentDto> _studentValidator;
         private readonly IValidator<GradeDto> _gradeValidator;
+        private readonly IValidator<StudentSearchParametersDto> _studentSearchParametersValidator;
 
-        public StudentsController(IStudentsService studentsService, IMapper mapper, IValidator<StudentDto> studentValidator, IValidator<GradeDto> gradeValidator)
+        public StudentsController(IStudentsService studentsService, IMapper mapper, IValidator<StudentDto> studentValidator, IValidator<GradeDto> gradeValidator, IValidator<StudentSearchParametersDto> studentSearchParametersValidator)
         {
             _studentsService = studentsService;
             _mapper = mapper;
             _studentValidator = studentValidator;
             _gradeValidator = gradeValidator;
+            _studentSearchParametersValidator = studentSearchParametersValidator;
         }
 
         [HttpGet]
@@ -42,6 +44,13 @@ namespace UniversityApp.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] StudentSearchParametersDto searchParameters)
         {
+            var searchParamsValidation = _studentSearchParametersValidator.Validate(searchParameters);
+
+            if(!searchParamsValidation.IsValid)
+            {
+                return BadRequest();
+            }
+
             var searchData = _mapper.Map<StudentSearchParametersDomainModel>(searchParameters);
             var data = await _studentsService.SearchStudents(searchData);
 

@@ -126,9 +126,8 @@ namespace UniversityApp.BussinessLogic.Services
 
         public async Task<bool> DoesStudentExists(int id)
         {
-            var student = await _studentsRepository.GetStudent(id);
-
-            return student != null;
+            var exists = await _studentsRepository.DoesStudentExist(id);
+            return exists;
         }
     }
 }

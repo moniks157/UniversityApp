@@ -8,16 +8,21 @@ using UniversityApp.DTOs;
 
 namespace UniversityApp.Validators
 {
-    public class GradeValidatior : AbstractValidator<GradeDto>
+    public class GradeValidator : AbstractValidator<GradeDto>
     {
         IStudentsService _studentsService;
 
-        public GradeValidatior(IStudentsService studentsService)
+        public GradeValidator(IStudentsService studentsService)
         {
             _studentsService = studentsService;
 
+            RuleSet(Constants.RULESET_REQUIRED, () =>
+            {
+                RuleFor(grade => grade.Value).NotNull();
+                RuleFor(grade => grade.Description).NotNull();
+            });
+
             RuleFor(grade => grade.Value)
-                .NotNull()
                 .InclusiveBetween(2.0, 5.5)
                 .Custom((value, context) =>
                 {
@@ -27,8 +32,7 @@ namespace UniversityApp.Validators
                     }
                 });
 
-            RuleFor(grade => grade.Description)
-                .NotNull();
+            
 
             RuleFor(grade => grade.StudentId)
                 .MustAsync(async (studentId, cancellation) =>
