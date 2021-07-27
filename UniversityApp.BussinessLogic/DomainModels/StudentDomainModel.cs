@@ -12,5 +12,6 @@ namespace UniversityApp.BussinessLogic.DomainModels
         public string LastName;
         public int Age;
         public string Gender;
+        public bool IsAdult;
     }
 }

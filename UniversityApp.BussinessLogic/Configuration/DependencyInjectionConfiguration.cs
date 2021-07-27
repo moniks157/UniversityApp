@@ -4,7 +4,7 @@ using UniversityApp.BussinessLogic.Services.Interfaces;
 
 namespace UniversityApp.BussinessLogic.Configuration
 {
-    public static class ServiceCollectionExtentions
+    public static class DependencyInjectionConfiguration
     {
         public static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
         { 

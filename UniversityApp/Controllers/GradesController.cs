@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,11 +18,13 @@ namespace UniversityApp.Controllers
     {
         private readonly IGradesService _gradesService;
         private readonly IMapper _mapper;
+        private readonly IValidator<GradeDto> _gradeValidator;
 
-        public GradesController(IGradesService gradesService, IMapper mapper)
+        public GradesController(IGradesService gradesService, IMapper mapper, IValidator<GradeDto> gradeValidator)
         {
             _gradesService = gradesService;
             _mapper = mapper;
+            _gradeValidator = gradeValidator;
         }
 
         [HttpGet]
@@ -40,6 +43,15 @@ namespace UniversityApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] GradeDto grade)
         {
+            var gradeValidation = _gradeValidator.Validate(grade, options => {
+                options.IncludeRuleSets(Constants.RULESET_REQUIRED);
+                });
+
+            if(!gradeValidation.IsValid)
+            {
+                return BadRequest(gradeValidation.Errors);
+            }
+
             var gradeToUpdate = _mapper.Map<GradeDomainModel>(grade);
 
             var result = await _gradesService.UpdateGrade(id, gradeToUpdate);

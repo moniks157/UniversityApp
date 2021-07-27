@@ -8,7 +8,8 @@ namespace UniversityApp.BussinessLogic.DomainModels
 {
     public class GradeDomainModel
     {
-        public int Value { get; set; }
+        public double Value { get; set; }
         public string Description { get; set; }
+        public int StudentId { get; set; }
     }
 }

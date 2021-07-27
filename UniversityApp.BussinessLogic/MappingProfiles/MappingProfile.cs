@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.DataAccess.Entities;
 
-namespace UniversityApp.BussinessLogic.DomainModels
+namespace UniversityApp.BussinessLogic.MappingProfiles
 {
     public class MappingProfile : Profile
     {
