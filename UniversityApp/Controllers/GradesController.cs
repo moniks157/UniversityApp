@@ -44,8 +44,7 @@ namespace UniversityApp.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] GradeDto grade)
         {
             var gradeValidation = _gradeValidator.Validate(grade, options => {
-                options
-                .IncludeRuleSets(Constants.RULESET_REQUIRED);
+                options.IncludeRuleSets(Constants.RULESET_REQUIRED);
                 });
 
             if(!gradeValidation.IsValid)

@@ -32,8 +32,6 @@ namespace UniversityApp.Validators
                     }
                 });
 
-            
-
             RuleFor(grade => grade.StudentId)
                 .MustAsync(async (studentId, cancellation) =>
                 {

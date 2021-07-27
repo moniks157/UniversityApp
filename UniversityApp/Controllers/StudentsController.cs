@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.Services.Interfaces;
 using UniversityApp.DTOs;
 using UniversityApp.Pagination;
-using UniversityApp.Validators;
 
 namespace UniversityApp.Controllers
 {
@@ -48,7 +46,7 @@ namespace UniversityApp.Controllers
 
             if(!searchParamsValidation.IsValid)
             {
-                return BadRequest();
+                return BadRequest(searchParamsValidation.Errors);
             }
 
             var searchData = _mapper.Map<StudentSearchParametersDomainModel>(searchParameters);

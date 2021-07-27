@@ -101,7 +101,9 @@ namespace UniversityApp.BussinessLogic.Services
 
         public async Task<int?> AddStudentGrade(GradeDomainModel grade)
         {
-            if (!(await DoesStudentExists(grade.StudentId)))
+            var doesStudentExist = await DoesStudentExists(grade.StudentId);
+
+            if (!doesStudentExist)
             {
                 return null;
             }
@@ -126,8 +128,8 @@ namespace UniversityApp.BussinessLogic.Services
 
         public async Task<bool> DoesStudentExists(int id)
         {
-            var exists = await _studentsRepository.DoesStudentExist(id);
-            return exists;
+            var result = await _studentsRepository.DoesStudentExist(id);
+            return result;
         }
     }
 }
