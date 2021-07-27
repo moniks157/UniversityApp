@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.DataAccess.Entities;
+using UniversityApp.DataAccess.Models;
 
 namespace UniversityApp.BussinessLogic.MappingProfiles
 {
@@ -13,6 +14,8 @@ namespace UniversityApp.BussinessLogic.MappingProfiles
 
             CreateMap<GradeDomainModel, Grade>();
             CreateMap<Grade, GradeDomainModel>();
+
+            CreateMap<StudentSearchParametersDomainModel, StudentSearchParameters>();
         }
     }
 }
