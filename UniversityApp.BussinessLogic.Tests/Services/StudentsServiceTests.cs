@@ -12,6 +12,7 @@ using UniversityApp.BussinessLogic.DomainModels;
 using UniversityApp.BussinessLogic.MappingProfiles;
 using UniversityApp.BussinessLogic.Services;
 using UniversityApp.DataAccess.Entities;
+using UniversityApp.DataAccess.Models;
 using UniversityApp.DataAccess.Repositories.Interfaces;
 
 namespace UniversityApp.BussinessLogic.Tests.Services
@@ -114,6 +115,52 @@ namespace UniversityApp.BussinessLogic.Tests.Services
 
             //Assert
             result.Should().BeEquivalentTo(expectedStudents, options => options.ComparingByValue<StudentDomainModel>().ExcludingMissingMembers());
+        }
+
+        [Test]
+        public async Task SearchStudents_Should_ReturnTupleOfPagedRecodsAndTotalRecordCount_When_Called()
+        {
+            //Arrange
+            var searchParams = new StudentSearchParametersDomainModel()
+            {
+                LastName = "tak",
+                PageNumber = 1,
+                PageSize = 2
+            };
+
+            var expectedStudents = new List<Student>
+            {
+                new Student
+                {
+                    Id = 22,
+                    FirstName = "Adam",
+                    LastName = "Ptak",
+                    Age = 24,
+                    IsAdult = true,
+                    Gender = "M",
+                    Grades = new List<Grade>()
+                },
+                new Student
+                {
+                    Id = 14,
+                    FirstName = "Lola",
+                    LastName = "Tak",
+                    Age = 23,
+                    IsAdult = true,
+                    Gender = "K",
+                    Grades = new List<Grade>()
+                }
+            };
+
+            var expecetdRecordCount = 10;
+            studentsRepositoryMock.GetStudents(Arg.Any<StudentSearchParameters>()).Returns((expectedStudents, expecetdRecordCount));
+            var studentsService = new StudentsService(studentsRepositoryMock, gradesRepositoryMock, mapper);
+
+            //Act
+            var result = await studentsService.SearchStudents(searchParams);
+
+            //Assert
+            result.Should().BeEquivalentTo((expectedStudents, expecetdRecordCount), options => options.ComparingByValue<StudentDomainModel>().ExcludingMissingMembers());
         }
 
         [Test]

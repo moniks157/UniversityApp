@@ -114,6 +114,65 @@ namespace UniversityApp.Tests.Controllers
         }
 
         [Test]
+        public async Task Search_Should_ReturnBadRequest_When_SearchParametersAreNotValid()
+        {
+            //Arrange
+            var searchParams = new StudentSearchParametersDto()
+            {
+                FirstName = "Ala",
+                PageNumber = -1,
+                PageSize = 10
+            };
+            var controller = new StudentsController(studentsServiceMock, mapper, studentValidator, gradeValidator, studentSearchParametersValidator);
+
+            //Act
+            var result = await controller.Search(searchParams);
+
+            //Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+        }
+
+        [Test]
+        public async Task Search_Should_ReturnOk_When_SearchParametersAreValid()
+        {
+            //Arrange
+            var searchParams = new StudentSearchParametersDto()
+            {
+                FirstName = "Ala",
+                PageNumber = 1,
+                PageSize = 10
+            };
+
+            var expectedResult = new List<StudentDomainModel>(){
+                new StudentDomainModel()
+                {
+                    FirstName = "Alaksandra",
+                    LastName = "Xx",
+                    Age = 20,
+                    IsAdult = true,
+                    Gender = "K"
+                },
+                new StudentDomainModel()
+                {
+                    FirstName = "Alax",
+                    LastName = "Xx",
+                    Age = 20,
+                    IsAdult = true,
+                    Gender = "M"
+                }
+            };
+            studentsServiceMock.SearchStudents(Arg.Any<StudentSearchParametersDomainModel>()).Returns((expectedResult, expectedResult.Count));
+            var controller = new StudentsController(studentsServiceMock, mapper, studentValidator, gradeValidator, studentSearchParametersValidator);
+
+            //Act
+            var result = await controller.Search(searchParams);
+
+            //Assert
+            result.Should().BeOfType<OkObjectResult>();
+            (result as OkObjectResult).Value.Should().BeEquivalentTo((expectedResult, expectedResult.Count), options => options.ComparingByValue<StudentDto>().ExcludingMissingMembers());
+        }
+
+        [Test]
         public async Task Post_Should_ReturnCreated_When_CorrectStudentData()
         {
             //Arrange
