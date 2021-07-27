@@ -60,9 +60,9 @@ namespace UniversityApp.BussinessLogic.Services
         {
             var studentToAdd = _mapper.Map<Student>(student);
 
-            await _studentsRepository.AddStudent(studentToAdd);
+            var addedStudentID = await _studentsRepository.AddStudent(studentToAdd);
 
-            return studentToAdd.Id;
+            return addedStudentID;
         }
 
         public async Task<bool> UpdateStudent(int id, StudentDomainModel student)
